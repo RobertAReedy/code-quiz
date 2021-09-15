@@ -6,7 +6,13 @@ them entirely*/
 of the program, and will not ever be removed*/
 
 var mainEl = document.querySelector("#main-page");
+
+//These are the variables that need to be updated
+//on the question page
 var qSheetEl = document.createElement("div");
+var questionEl = document.createElement("h1");
+var answerButtons = [];
+var isCorrectEl = document.createElement("h2");
 
 /**
  * Will show the sheet used for asking questions. Currently
@@ -14,9 +20,7 @@ var qSheetEl = document.createElement("div");
  */
 var createQuestionSheet = function() {
     var questionAnswerBoxEl = document.createElement("div");
-    var questionEl = document.createElement("h1");
-    var answerButtons = [];
-    var isCorrectEl = document.createElement("h2");
+ 
 
     qSheetEl.className = "question-sheet";
     questionEl.textContent = "What was the birthplace of Mesopotamian civilization?";
@@ -30,8 +34,11 @@ var createQuestionSheet = function() {
     }
     qSheetEl.appendChild(questionAnswerBoxEl);
     qSheetEl.appendChild(isCorrectEl);
+}
+
+function showQuestionSheet() {
     mainEl.appendChild(qSheetEl);
 }
 
-createQuestionSheet(); //for testing purposes
+createQuestionSheet();
 
