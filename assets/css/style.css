@@ -31,6 +31,12 @@ main .intro-sheet button {
     border: 0;
     font-size: large;
     text-align: center;
+    display: block;
+}
+
+main .intro-sheet h1, h2 {
+    text-align: center;
+    padding-bottom: 20px;
 }
 
 /*Question sheet rules*/
