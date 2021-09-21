@@ -19,6 +19,13 @@ var questionEl = document.createElement("h1");
 var answerButtons = [];
 var isCorrectEl = document.createElement("h2");
 
+//Variables that need to be updated on the 
+//end page
+var endSheetEl = document.createElement("div");
+var nameInputEl = document.createElement("input");
+var nameInputButtonEl = document.createElement("button");
+nameInputButtonEl.textContent = "Submit";
+
 /**
  * Will create the sheet shown to the user first.
  */
@@ -34,6 +41,22 @@ var createIntroSheet = function() {
     introSheetEl.appendChild(introTitleEl);
     introSheetEl.appendChild(introLineEl);
     introSheetEl.appendChild(startButtonEl);
+}
+
+/**
+ * Will create the sheet shown after testing is over.
+ */
+var createEndSheet = function() {
+    var endTitleEl = document.createElement("h1");
+    var showScoreEl = document.createElement("p");
+
+    endTitleEl.textContent = "All done!";
+    showScoreEl.textContent = "Your final score is " + "PLACEHOLDER";
+
+    endSheetEl.appendChild(endTitleEl);
+    endSheetEl.appendChild(showScoreEl);
+    endSheetEl.appendChild(nameInputEl);
+    endSheetEl.appendChild(nameInputButtonEl);
 }
 
 /**
@@ -56,24 +79,17 @@ var createQuestionSheet = function() {
     qSheetEl.appendChild(isCorrectEl);
 }
 
-function showQuestionSheet() {
-    mainEl.appendChild(qSheetEl);
+function showSheet(sheet) {
+    mainEl.appendChild(sheet);
 }
 
-function hideQuestionSheet() {
-    mainEl.removeChild(qSheetEl);
-}
-
-function showIntroSheet() {
-    mainEl.appendChild(introSheetEl);
-}
-
-function hideIntroSheet() {
-    mainEl.removeChild(introSheetEl);
+function hideSheet(sheet) {
+    mainEl.removeChild(sheet);
 }
 
 createQuestionSheet();  
 createIntroSheet(); 
-showIntroSheet(); 
+createEndSheet();
+showSheet(endSheetEl); //for testing
 
 
