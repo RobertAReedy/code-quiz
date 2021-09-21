@@ -22,6 +22,7 @@ var isCorrectEl = document.createElement("h2");
 //Variables that need to be updated on the 
 //end page
 var endSheetEl = document.createElement("div");
+endSheetEl.className = "end-sheet";
 var nameInputEl = document.createElement("input");
 var nameInputButtonEl = document.createElement("button");
 nameInputButtonEl.textContent = "Submit";
@@ -43,21 +44,6 @@ var createIntroSheet = function() {
     introSheetEl.appendChild(startButtonEl);
 }
 
-/**
- * Will create the sheet shown after testing is over.
- */
-var createEndSheet = function() {
-    var endTitleEl = document.createElement("h1");
-    var showScoreEl = document.createElement("p");
-
-    endTitleEl.textContent = "All done!";
-    showScoreEl.textContent = "Your final score is " + "PLACEHOLDER";
-
-    endSheetEl.appendChild(endTitleEl);
-    endSheetEl.appendChild(showScoreEl);
-    endSheetEl.appendChild(nameInputEl);
-    endSheetEl.appendChild(nameInputButtonEl);
-}
 
 /**
  * Will create the sheet used for asking questions. Currently
@@ -65,10 +51,10 @@ var createEndSheet = function() {
  */
 var createQuestionSheet = function() {
     var questionAnswerBoxEl = document.createElement("div");
- 
+    
     questionEl.textContent = "What was the birthplace of Mesopotamian civilization?";
     isCorrectEl.textContent = "will be correct or incorrect";
-
+    
     questionAnswerBoxEl.appendChild(questionEl);
     for (var i = 0; i < 4; i++) {
         answerButtons.push(document.createElement("button"));
@@ -77,6 +63,66 @@ var createQuestionSheet = function() {
     }
     qSheetEl.appendChild(questionAnswerBoxEl);
     qSheetEl.appendChild(isCorrectEl);
+}
+
+/**
+ * Will create the sheet shown after testing is over.
+ */
+var createEndSheet = function() {
+    var endTitleEl = document.createElement("h1");
+    var showScoreEl = document.createElement("p");
+    var nameInputLabelEl = document.createElement("label");
+
+    endTitleEl.textContent = "All done!";
+    showScoreEl.textContent = "Your final score is " + "PLACEHOLDER" + ".";
+    nameInputLabelEl.textContent = "Enter initials:";
+
+    endSheetEl.appendChild(endTitleEl);
+    endSheetEl.appendChild(showScoreEl);
+    endSheetEl.appendChild(nameInputLabelEl);
+    endSheetEl.appendChild(nameInputEl);
+    endSheetEl.appendChild(nameInputButtonEl);
+}
+
+//variables needed visible for the high score sheet
+var highScoreSheetEl = document.createElement("div");
+highScoreSheetEl.className = "high-score-sheet";
+var scoresEl = [];
+
+/**
+ * Will create the high score sheet.
+ */
+var createHighScoreSheet = function() {
+    var highScoreTitleEl = document.createElement("h1");
+    var highScoreReturnButtonEl = document.createElement("button");
+    var highScoreClearButtonEl = document.createElement("button");
+
+    var testHighScore = {
+        name: document.createElement("p"),
+        score: 20
+    }
+    var testHighScore2 = {
+        name: document.createElement("p"),
+        score: 10
+    }
+
+    highScoreTitleEl.textContent = "High scores";
+    highScoreReturnButtonEl.textContent = "Go back";
+    highScoreClearButtonEl.textContent = "Clear high scores";
+
+    testHighScore.name.textContent = "xX_n00bpwnzer420_Xx";
+    testHighScore2.name.textContent = "a dead mouse";
+    scoresEl.push(testHighScore);
+    scoresEl.push(testHighScore2);
+
+    highScoreSheetEl.appendChild(highScoreTitleEl);
+    for (var i = 0; i < scoresEl.length; i++) {
+        highScoreSheetEl.appendChild(scoresEl[i].name);
+        scoresEl[i].name.textContent = (i + 1) + ": " + scoresEl[i].name.textContent + " - " + scoresEl[i].score;
+    }
+    highScoreSheetEl.appendChild(highScoreReturnButtonEl);
+    highScoreSheetEl.appendChild(highScoreClearButtonEl);
+  
 }
 
 function showSheet(sheet) {
@@ -90,6 +136,7 @@ function hideSheet(sheet) {
 createQuestionSheet();  
 createIntroSheet(); 
 createEndSheet();
-showSheet(endSheetEl); //for testing
+createHighScoreSheet();
+showSheet(highScoreSheetEl); //for testing
 
 
