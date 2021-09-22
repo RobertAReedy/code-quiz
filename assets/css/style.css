@@ -5,7 +5,7 @@
 }
 
 header {
-    margin: 20px;
+    margin: 10px;
     display: flex;
     justify-content: space-between;
 }
@@ -61,7 +61,7 @@ main .question-sheet div button {
     width: 250px;
     color: #f3eded;
     background-color: #502184;
-    padding: 9px 0px 9px 20px;
+    padding: 9px 20px 9px 20px;
     border-radius: 8px;
     border: 0;
     font-size: large;
@@ -111,4 +111,8 @@ main .high-score-sheet button {
     border: 0;
     font-size: small;
     margin: 10px 10px 0 0;
+}
+
+main #hide-sheet {
+    display: none;
 }

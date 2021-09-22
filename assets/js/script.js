@@ -4,7 +4,6 @@ them entirely*/
 
 /* The div called Main will stay for all states
 of the program, and will not ever be removed*/
-
 var mainEl = document.querySelector("#main-page");
 
 //The intro sheet
@@ -19,14 +18,6 @@ var questionEl = document.createElement("h1");
 var answerButtons = [];
 var isCorrectEl = document.createElement("h2");
 
-//Variables that need to be updated on the 
-//end page
-var endSheetEl = document.createElement("div");
-endSheetEl.className = "end-sheet";
-var nameInputEl = document.createElement("input");
-var nameInputButtonEl = document.createElement("button");
-nameInputButtonEl.textContent = "Submit";
-
 /**
  * Will create the sheet shown to the user first.
  */
@@ -34,20 +25,24 @@ var createIntroSheet = function() {
     var introTitleEl = document.createElement("h1");
     var introLineEl = document.createElement("h2");
     var startButtonEl = document.createElement("button");
+
     introTitleEl.textContent = "Coding Quiz Challenge";
     introLineEl.textContent = "Try to answer the following code related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!";
     startButtonEl.textContent = "Start Quiz";
+    startButtonEl.setAttribute("id", "start-button"); 
 
-
+    introSheetEl.setAttribute("id", "hide-sheet");
     introSheetEl.appendChild(introTitleEl);
     introSheetEl.appendChild(introLineEl);
     introSheetEl.appendChild(startButtonEl);
+
+    mainEl.appendChild(introSheetEl);
 }
 
 
+
 /**
- * Will create the sheet used for asking questions. Currently
- * in styling and HTML stage.
+ * Will create the sheet used for asking questions. 
  */
 var createQuestionSheet = function() {
     var questionAnswerBoxEl = document.createElement("div");
@@ -63,7 +58,19 @@ var createQuestionSheet = function() {
     }
     qSheetEl.appendChild(questionAnswerBoxEl);
     qSheetEl.appendChild(isCorrectEl);
+
+    qSheetEl.setAttribute("id", "hide-sheet");
+
+    mainEl.appendChild(qSheetEl);
 }
+
+//Variables that need to be updated on the 
+//end page
+var endSheetEl = document.createElement("div");
+endSheetEl.className = "end-sheet";
+var nameInputEl = document.createElement("input");
+var nameInputButtonEl = document.createElement("button");
+nameInputButtonEl.textContent = "Submit";
 
 /**
  * Will create the sheet shown after testing is over.
@@ -82,6 +89,10 @@ var createEndSheet = function() {
     endSheetEl.appendChild(nameInputLabelEl);
     endSheetEl.appendChild(nameInputEl);
     endSheetEl.appendChild(nameInputButtonEl);
+
+    endSheetEl.setAttribute("id", "hide-sheet");
+
+    mainEl.appendChild(endSheetEl);
 }
 
 //variables needed visible for the high score sheet
@@ -108,6 +119,7 @@ var createHighScoreSheet = function() {
 
     highScoreTitleEl.textContent = "High scores";
     highScoreReturnButtonEl.textContent = "Go back";
+    highScoreReturnButtonEl.setAttribute("id", "go-back-button");
     highScoreClearButtonEl.textContent = "Clear high scores";
 
     testHighScore.name.textContent = "xX_n00bpwnzer420_Xx";
@@ -122,21 +134,85 @@ var createHighScoreSheet = function() {
     }
     highScoreSheetEl.appendChild(highScoreReturnButtonEl);
     highScoreSheetEl.appendChild(highScoreClearButtonEl);
+
+    highScoreSheetEl.setAttribute("id", "hide-sheet");
   
+    mainEl.appendChild(highScoreSheetEl);
 }
+
 
 function showSheet(sheet) {
-    mainEl.appendChild(sheet);
+    introSheetEl.setAttribute("id", "hide-sheet");
+    qSheetEl.setAttribute("id", "hide-sheet");
+    endSheetEl.setAttribute("id", "hide-sheet");
+    highScoreSheetEl.setAttribute("id", "hide-sheet");
+    sheet.setAttribute("id", "");
 }
 
-function hideSheet(sheet) {
-    mainEl.removeChild(sheet);
+// Functionality code below ------------------------------------------------------------------------------
+
+/**
+ * Function called by takeQuiz() to set a single question and its answers
+ */
+var setQuestion = function(question) {
+    questionEl.textContent = question.question;
+    answerButtons[0].textContent = question.answer1;
+    answerButtons[1].textContent = question.answer2;
+    answerButtons[2].textContent = question.answer3;
+    answerButtons[3].textContent = question.answer4;
 }
 
-createQuestionSheet();  
+/**
+ * Begins once the start button is pressed. This function will take the quiz.
+ */
+var takeQuiz = function() {
+    var whichQuestion = 0;
+    var questions = [
+        {
+            question: "What is the difference between a parameter and an argument?",           
+            answer1: "A parameter is accepted by a function, and an argument is given to one.",
+            answer2: "A function can have many arguments, but only one parameter.",
+            answer3: "A parameter can be reassigned, but a function cannot.",
+            answer4: "There is no difference.",
+            correctAnswer: 1
+        },
+        {
+            question: "The answer is the fourth answer.",
+            answer1: "1: lorem upside down idk",
+            answer2: "2: just a test.",
+            answer3: "3: we dream ourselves awake",
+            answer4: "4: Pick this answer.",
+            correctAnswer: 4
+        }
+    ];
+    setQuestion(questions[whichQuestion]);
+
+}
+
+var resetQuiz = function() {
+
+}
+
 createIntroSheet(); 
+createQuestionSheet();
 createEndSheet();
 createHighScoreSheet();
-showSheet(highScoreSheetEl); //for testing
+showSheet(introSheetEl);
+
+
+document.getElementById("start-button").addEventListener("click", function() {
+    showSheet(qSheetEl);
+    takeQuiz();
+});
+
+document.getElementById("high-score-button").addEventListener("click", function() {
+    showSheet(highScoreSheetEl);
+});
+
+document.getElementById("go-back-button").addEventListener("click", function() {
+    showSheet(introSheetEl);
+    //resetQuiz();
+});
+
 
 
