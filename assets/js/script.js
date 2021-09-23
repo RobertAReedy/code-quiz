@@ -18,6 +18,9 @@ var questionEl = document.createElement("h1");
 var answerButtons = [];
 var isCorrectEl = document.createElement("h2");
 
+//where the questions will be stored as objects
+var questions = [];
+
 /**
  * Will create the sheet shown to the user first.
  */
@@ -54,6 +57,8 @@ var createQuestionSheet = function() {
     for (var i = 0; i < 4; i++) {
         answerButtons.push(document.createElement("button"));
         answerButtons[i].textContent = i + ": placeholder answer";
+        answerButtons[i].className = "answer-button";
+        answerButtons[i].setAttribute("id", (i+1)); //------------------------------------------------------
         questionAnswerBoxEl.appendChild(answerButtons[i]);
     }
     qSheetEl.appendChild(questionAnswerBoxEl);
@@ -152,7 +157,7 @@ function showSheet(sheet) {
 // Functionality code below ------------------------------------------------------------------------------
 
 /**
- * Function called by takeQuiz() to set a single question and its answers
+ * Function called start() to set a single question and its answers
  */
 var setQuestion = function(question) {
     questionEl.textContent = question.question;
@@ -165,9 +170,9 @@ var setQuestion = function(question) {
 /**
  * Begins once the start button is pressed. This function will take the quiz.
  */
-var takeQuiz = function() {
-    var whichQuestion = 0;
-    var questions = [
+var whichQuestion = 0;
+var startQuiz = function() {
+    questions = [
         {
             question: "What is the difference between a parameter and an argument?",           
             answer1: "A parameter is accepted by a function, and an argument is given to one.",
@@ -186,11 +191,11 @@ var takeQuiz = function() {
         }
     ];
     setQuestion(questions[whichQuestion]);
-
+    // whichQuestion++;
 }
 
 var resetQuiz = function() {
-
+    whichQuestion = 0;
 }
 
 createIntroSheet(); 
@@ -202,7 +207,7 @@ showSheet(introSheetEl);
 
 document.getElementById("start-button").addEventListener("click", function() {
     showSheet(qSheetEl);
-    takeQuiz();
+    startQuiz();
 });
 
 document.getElementById("high-score-button").addEventListener("click", function() {
@@ -211,8 +216,28 @@ document.getElementById("high-score-button").addEventListener("click", function(
 
 document.getElementById("go-back-button").addEventListener("click", function() {
     showSheet(introSheetEl);
-    //resetQuiz();
+    resetQuiz();
 });
+
+/**
+ * This takes the rest of the quiz
+ */
+document.addEventListener('click', function(e) { //ADDING MULTIPLE EVENTLISTENERS ERROR
+    if (e.target.className === "answer-button") {
+        console.log(e.target.getAttribute("id"));
+        if (questions[whichQuestion].correctAnswer == (e.target.getAttribute("id"))) {
+            alert("Correct!");
+        }
+        whichQuestion++;
+        if (whichQuestion < questions.length) {
+            setQuestion(questions[whichQuestion]);
+        }
+        else {
+            showSheet(endSheetEl);
+            // showResults();
+        }
+    }
+})
 
 
 
