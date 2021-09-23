@@ -21,6 +21,10 @@ var isCorrectEl = document.createElement("h2");
 //where the questions will be stored as objects
 var questions = [];
 
+var timerEl = document.querySelector("#timer");
+var time = 300;
+var timeInterval;
+
 /**
  * Will create the sheet shown to the user first.
  */
@@ -76,13 +80,13 @@ endSheetEl.className = "end-sheet";
 var nameInputEl = document.createElement("input");
 var nameInputButtonEl = document.createElement("button");
 nameInputButtonEl.textContent = "Submit";
+var showScoreEl = document.createElement("p");
 
 /**
  * Will create the sheet shown after testing is over.
  */
 var createEndSheet = function() {
     var endTitleEl = document.createElement("h1");
-    var showScoreEl = document.createElement("p");
     var nameInputLabelEl = document.createElement("label");
 
     endTitleEl.textContent = "All done!";
@@ -172,6 +176,16 @@ var setQuestion = function(question) {
  */
 var whichQuestion = 0;
 var startQuiz = function() {
+    timeInterval = null;
+    timeInterval = setInterval(function() {
+        timerEl.textContent = "Time: " + time;
+        console.log("time remaining: " + time);
+        time--;
+        if (time <= 0) {
+            clearInterval(timeInterval);
+        }
+    }, 1000);
+    console.log("set interval script passed");
     questions = [
         {
             question: "What is the difference between a parameter and an argument?",           
@@ -191,11 +205,22 @@ var startQuiz = function() {
         }
     ];
     setQuestion(questions[whichQuestion]);
-    // whichQuestion++;
 }
 
 var resetQuiz = function() {
     whichQuestion = 0;
+    time = 300;
+    clearInterval(timeInterval);
+    console.log("reset activated");
+}
+
+/**
+ * Shows the final result, and prompts the user to enter their initials for a high score
+ */
+var showResults = function() {
+    clearInterval(timeInterval);
+    timerEl.textContent = "Time: " + time;
+    showScoreEl.textContent = "Your final score is " + time + ".";
 }
 
 createIntroSheet(); 
@@ -222,11 +247,17 @@ document.getElementById("go-back-button").addEventListener("click", function() {
 /**
  * This takes the rest of the quiz
  */
-document.addEventListener('click', function(e) { //ADDING MULTIPLE EVENTLISTENERS ERROR
+document.addEventListener('click', function(e) { 
     if (e.target.className === "answer-button") {
-        console.log(e.target.getAttribute("id"));
+
         if (questions[whichQuestion].correctAnswer == (e.target.getAttribute("id"))) {
-            alert("Correct!");
+            console.log("Correct answer selected");
+        }
+        else {
+            console.log("Incorrect answer selected");
+            if (time > 10) {
+                time -= 10;
+            }
         }
         whichQuestion++;
         if (whichQuestion < questions.length) {
@@ -234,7 +265,7 @@ document.addEventListener('click', function(e) { //ADDING MULTIPLE EVENTLISTENER
         }
         else {
             showSheet(endSheetEl);
-            // showResults();
+            showResults();
         }
     }
 })
