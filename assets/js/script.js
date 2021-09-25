@@ -75,7 +75,7 @@ var createQuestionSheet = function() {
         answerButtons.push(document.createElement("button"));
         answerButtons[i].textContent = i + ": placeholder answer";
         answerButtons[i].className = "answer-button";
-        answerButtons[i].setAttribute("id", (i+1)); //------------------------------------------------------
+        answerButtons[i].setAttribute("id", (i+1)); 
         questionAnswerBoxEl.appendChild(answerButtons[i]);
     }
     qSheetEl.appendChild(questionAnswerBoxEl);
@@ -273,7 +273,7 @@ var showResults = function() {
 var submitHighScore = function() {
     if (nameInputEl.value.trim() != "") {
         console.log("name input wasn't empty");
-        
+
         //code for submission here
         var userScoreSubmit = {
             name: nameInputEl.value.trim(),
