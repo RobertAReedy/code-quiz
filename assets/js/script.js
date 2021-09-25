@@ -17,6 +17,21 @@ var isCorrectEl = document.createElement("h2");
 //where the questions will be stored as objects
 var questions = [];
 
+/*Variables that need to be updated on the 
+end page*/
+var endSheetEl = document.createElement("div");
+endSheetEl.className = "end-sheet";
+var nameInputEl = document.createElement("input");
+var nameInputButtonEl = document.createElement("button");
+nameInputButtonEl.textContent = "Submit";
+var showScoreEl = document.createElement("p");
+
+//variables needed visible for the high score sheet
+var highScoreSheetEl = document.createElement("div");
+highScoreSheetEl.className = "high-score-sheet";
+var highScoreSectionEl = document.createElement("div");
+var scoresEl = [];
+
 //variables needed for the timer to work
 var timerEl = document.querySelector("#timer");
 var time = 300;
@@ -71,15 +86,6 @@ var createQuestionSheet = function() {
     mainEl.appendChild(qSheetEl);
 }
 
-/*Variables that need to be updated on the 
-end page*/
-var endSheetEl = document.createElement("div");
-endSheetEl.className = "end-sheet";
-var nameInputEl = document.createElement("input");
-var nameInputButtonEl = document.createElement("button");
-nameInputButtonEl.textContent = "Submit";
-var showScoreEl = document.createElement("p");
-
 /**
  * Will create the sheet shown after testing is over.
  */
@@ -101,12 +107,6 @@ var createEndSheet = function() {
 
     mainEl.appendChild(endSheetEl);
 }
-
-//variables needed visible for the high score sheet
-var highScoreSheetEl = document.createElement("div");
-highScoreSheetEl.className = "high-score-sheet";
-var highScoreSectionEl = document.createElement("div");
-var scoresEl = [];
 
 /**
  * Takes a score object, sorts it into the scoresEl array, empties
@@ -162,8 +162,6 @@ var createHighScoreSheet = function() {
     highScoreClearButtonEl.textContent = "Clear high scores";
     highScoreClearButtonEl.setAttribute("id", "high-score-clear-button");
 
-    // testHighScore.element.textContent = testHighScore.name + " - " + testHighScore.score;
-    // testHighScore2.element.textContent = testHighScore2.name + " - " + testHighScore2.score;
     addToScoreSheet(testHighScore);
     addToScoreSheet(testHighScore2);
 
@@ -200,7 +198,8 @@ var setQuestion = function(question) {
 }
 
 /**
- * Begins once the start button is pressed. This function will take the quiz.
+ * Begins once the start button is pressed. This function will start the quiz,
+ * setting the first question and the necessary variables.
  */
 var whichQuestion = 0;
 var startQuiz = function() {
@@ -213,7 +212,7 @@ var startQuiz = function() {
             clearInterval(timeInterval);
         }
     }, 1000);
-    console.log("set interval script passed");
+
     questions = [
         {
             question: "What is the difference between a parameter and an argument?",           
@@ -251,6 +250,9 @@ var startQuiz = function() {
     setQuestion(questions[whichQuestion]);
 }
 
+/**
+ * Resets the quiz variables so the new quiz can begin.
+ */
 var resetQuiz = function() {
     whichQuestion = 0;
     time = 300;
@@ -271,6 +273,7 @@ var showResults = function() {
 var submitHighScore = function() {
     if (nameInputEl.value.trim() != "") {
         console.log("name input wasn't empty");
+        
         //code for submission here
         var userScoreSubmit = {
             name: nameInputEl.value.trim(),
@@ -330,9 +333,11 @@ document.querySelector("#high-score-clear-button").addEventListener("click", fun
 var isCorrectHide;
 document.addEventListener('click', function(e) { 
     if (e.target.className === "answer-button") {
+        //block below causes the correct or incorrect text to appear and disappear
         isCorrectEl.setAttribute("id", "");
         clearTimeout(isCorrectHide);
         isCorrectHide = setTimeout(function() {isCorrectEl.setAttribute("id", "hide-sheet");}, 1000);
+
         if (questions[whichQuestion].correctAnswer == (e.target.getAttribute("id"))) {
             console.log("Correct answer selected");
             isCorrectEl.textContent = "Correct!";
