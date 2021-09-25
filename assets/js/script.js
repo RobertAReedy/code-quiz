@@ -127,9 +127,14 @@ var addToScoreSheet = function(scoreObj) {
     
     highScoreSectionEl.innerHTML = null;
     for (var i = 0; i < scoresEl.length; i++) {
-        //scoresEl[i].name.textContent = (i+1) + ": " + scoresEl[i].name.textContent;
-        highScoreSectionEl.appendChild(scoresEl[i].name);
+        scoresEl[i].element.textContent = (i+1) + ": " +scoresEl[i].name+" - "+scoresEl[i].score;
+        highScoreSectionEl.appendChild(scoresEl[i].element);
     }
+}
+
+var clearHighScores = function() {
+    scoresEl = [];
+    highScoreSectionEl.innerHTML = null;
 }
 
 /**
@@ -141,11 +146,13 @@ var createHighScoreSheet = function() {
     var highScoreClearButtonEl = document.createElement("button");
 
     var testHighScore = {
-        name: document.createElement("p"),
+        name: "Robbie Draymond",
+        element: document.createElement("p"),
         score: 280
     };
     var testHighScore2 = {
-        name: document.createElement("p"),
+        name: "Xander Mobis",
+        element: document.createElement("p"),
         score: 200
     }
 
@@ -153,9 +160,10 @@ var createHighScoreSheet = function() {
     highScoreReturnButtonEl.textContent = "Go back";
     highScoreReturnButtonEl.setAttribute("id", "go-back-button");
     highScoreClearButtonEl.textContent = "Clear high scores";
+    highScoreClearButtonEl.setAttribute("id", "high-score-clear-button");
 
-    testHighScore.name.textContent = "Robbie Draymond - " + testHighScore.score;
-    testHighScore2.name.textContent = "Xander Mobis - " + testHighScore2.score;
+    // testHighScore.element.textContent = testHighScore.name + " - " + testHighScore.score;
+    // testHighScore2.element.textContent = testHighScore2.name + " - " + testHighScore2.score;
     addToScoreSheet(testHighScore);
     addToScoreSheet(testHighScore2);
 
@@ -230,6 +238,14 @@ var startQuiz = function() {
             answer3: "3: Single quotes \'a string\'",
             answer4: "4: Both answers 1 and 3.",
             correctAnswer: 4
+        },
+        {
+            question: "What is a proper format for a for loop that loops three times?",
+            answer1: "1: for (var i = 0; i < 2; i++)",
+            answer2: "2: for (var i = 0; i < 3; i++)",
+            answer3: "3: for (var i = 0; i++; i < 2)",
+            answer4: "4: for (var i = 0; i++; i < 3)",
+            correctAnswer: 2
         }
     ];
     setQuestion(questions[whichQuestion]);
@@ -257,10 +273,11 @@ var submitHighScore = function() {
         console.log("name input wasn't empty");
         //code for submission here
         var userScoreSubmit = {
-            name: document.createElement("p"),
+            name: nameInputEl.value.trim(),
+            element: document.createElement("p"),
             score: time
         };
-        userScoreSubmit.name.textContent = nameInputEl.value.trim()+" - "+userScoreSubmit.score;
+        // userScoreSubmit.element.textContent = userScoreSubmit.name+" - "+userScoreSubmit.score;
         console.log("activating addToScoreSheet...");
         addToScoreSheet(userScoreSubmit); 
          
@@ -296,6 +313,11 @@ document.getElementById("go-back-button").addEventListener("click", function() {
 nameInputButtonEl.addEventListener("click", function() {
     console.log("submit button clicked");
     submitHighScore();
+});
+
+document.querySelector("#high-score-clear-button").addEventListener("click", function() {
+    console.log("high score clear button pressed");
+    clearHighScores();
 });
 
 /**
