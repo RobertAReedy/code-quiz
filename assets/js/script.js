@@ -71,8 +71,8 @@ var createQuestionSheet = function() {
     mainEl.appendChild(qSheetEl);
 }
 
-//Variables that need to be updated on the 
-//end page
+/*Variables that need to be updated on the 
+end page*/
 var endSheetEl = document.createElement("div");
 endSheetEl.className = "end-sheet";
 var nameInputEl = document.createElement("input");
@@ -109,7 +109,7 @@ var highScoreSectionEl = document.createElement("div");
 var scoresEl = [];
 
 /**
- * Takes a score object, sorts it into the scoresEl array, empties ----------------------------------------------
+ * Takes a score object, sorts it into the scoresEl array, empties
  * the highScoreSectionEl div of the high scores, then reappends them
  * based on the new scoresEl array
  */
@@ -117,11 +117,11 @@ var addToScoreSheet = function(scoreObj) {
     for (var i = 0; i <= scoresEl.length; i++) {
         if (i == scoresEl.length) {
             scoresEl.push(scoreObj);
-            break; //fun fact I forgot this one too but debugger saved me
+            break; //fun fact I forgot to put this break in and nearly crashed my computer
         }
         else if (scoreObj.score > scoresEl[i].score) {
             scoresEl.splice(i, 0, scoreObj);
-            break; //fun fact I forgot to put this break in and nearly crashed my computer
+            break; //fun fact I forgot this one too
         }
     }
     
@@ -277,11 +277,11 @@ var submitHighScore = function() {
             element: document.createElement("p"),
             score: time
         };
-        // userScoreSubmit.element.textContent = userScoreSubmit.name+" - "+userScoreSubmit.score;
         console.log("activating addToScoreSheet...");
         addToScoreSheet(userScoreSubmit); 
          
-
+        document.querySelector("#high-score-button").className = "opacityTo0";
+        timerEl.className = "opacityTo0";
         showSheet(highScoreSheetEl);
     }
     else {
@@ -303,9 +303,13 @@ document.getElementById("start-button").addEventListener("click", function() {
 
 document.getElementById("high-score-button").addEventListener("click", function() {
     showSheet(highScoreSheetEl);
+    document.querySelector("#high-score-button").className = "opacityTo0";
+    timerEl.className = "opacityTo0";
 });
 
 document.getElementById("go-back-button").addEventListener("click", function() {
+    document.querySelector("#high-score-button").className = "";
+    timerEl.className = "";
     showSheet(introSheetEl);
     resetQuiz();
 });

@@ -116,6 +116,10 @@ main div button:hover {
     background-color: #7852a3;
 }
 
+.opacityTo0 {
+    opacity: 0;
+}
+
 main #hide-sheet {
     display: none;
 }
