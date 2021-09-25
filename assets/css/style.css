@@ -103,7 +103,6 @@ main .high-score-sheet p {
 }
 
 main .high-score-sheet button {
-    /* width: 80px; */
     color: #f3eded;
     background-color: #502184;
     padding: 4px 6px;
@@ -111,6 +110,10 @@ main .high-score-sheet button {
     border: 0;
     font-size: small;
     margin: 10px 10px 0 0;
+}
+
+main div button:hover {
+    background-color: #7852a3;
 }
 
 main #hide-sheet {
