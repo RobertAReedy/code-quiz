@@ -205,9 +205,9 @@ var whichQuestion = 0;
 var startQuiz = function() {
     timeInterval = null;
     timeInterval = setInterval(function() {
+        time--;
         timerEl.textContent = "Time: " + time;
         console.log("time remaining: " + time);
-        time--;
         if (time <= 0) {
             clearInterval(timeInterval);
         }
@@ -256,6 +256,7 @@ var startQuiz = function() {
 var resetQuiz = function() {
     whichQuestion = 0;
     time = 300;
+    timerEl.textContent = "Time: " + time;
     clearInterval(timeInterval);
     isCorrectEl.setAttribute("id", "hide-sheet");
     console.log("reset activated");
